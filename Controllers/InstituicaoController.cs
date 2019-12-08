@@ -62,5 +62,37 @@ namespace AspNetCoreMVC.Controllers
             instituicao.IdInstituicao = instituicoes.Select(i => i.IdInstituicao).Max() + 1;
             return RedirectToAction("Index");
         }
+
+        public IActionResult Edit(long id) 
+        {
+            return View(instituicoes.Where(i => i.IdInstituicao == id).First());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Instituicao instituicao)
+        {
+            instituicoes[instituicoes.IndexOf(instituicoes.Where(i => i.IdInstituicao == instituicao.IdInstituicao).First())] = instituicao;
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Details(long id)
+        {
+            return View(instituicoes.Where(i => i.IdInstituicao == id).First());
+        }
+
+        public IActionResult Delete(long id)
+        {
+            return View(instituicoes.Where(i => i.IdInstituicao == id).First());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(Instituicao instituicao)
+        {
+            instituicoes.Remove(instituicoes.Where(i => i.IdInstituicao == instituicao.IdInstituicao).First());
+            return RedirectToAction("Index");
+        }
+
     }
 }
