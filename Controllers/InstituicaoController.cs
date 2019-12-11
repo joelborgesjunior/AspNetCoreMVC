@@ -1,9 +1,7 @@
-﻿using System;
+﻿using AspNetCoreMVC.Models;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using AspNetCoreMVC.Models;
 
 
 namespace AspNetCoreMVC.Controllers
@@ -49,21 +47,21 @@ namespace AspNetCoreMVC.Controllers
             return View(instituicoes);
         }
 
-        public IActionResult Create() 
+        public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Instituicao instituicao) 
+        public IActionResult Create(Instituicao instituicao)
         {
             instituicoes.Add(instituicao);
             instituicao.IdInstituicao = instituicoes.Select(i => i.IdInstituicao).Max() + 1;
             return RedirectToAction("Index");
         }
 
-        public IActionResult Edit(long id) 
+        public IActionResult Edit(long id)
         {
             return View(instituicoes.Where(i => i.IdInstituicao == id).First());
         }

@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AspNetCoreMVC.Models;
 using Microsoft.EntityFrameworkCore;
-using AspNetCoreMVC.Models;
 
 namespace AspNetCoreMVC.Data
 {
     public class IESContext : DbContext
     {
-        public IESContext(DbContextOptions<IESContext> options) : base (options)
+        public IESContext(DbContextOptions<IESContext> options) : base(options)
         {
 
         }
