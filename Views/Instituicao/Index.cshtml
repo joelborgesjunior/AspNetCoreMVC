@@ -1,21 +1,18 @@
 ﻿@model IEnumerable<AspNetCoreMVC.Models.Instituicao>
 
 @{
-    ViewData["Title"] = "Instituições";
+    ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <h1>Instituições</h1>
+<h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Cadastrar Nova Instituição</a>
+    <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.IdInstituicao)
-            </th>
             <th>
                 @Html.DisplayNameFor(model => model.NomeInstituicao)
             </th>
@@ -29,18 +26,15 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.IdInstituicao)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.NomeInstituicao)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.EndereçoInstituicao)
             </td>
             <td>
-                @Html.ActionLink("Editar", "Edit", new { id = item.IdInstituicao }) |
-                @Html.ActionLink("Detalhes", "Details", new { id = item.IdInstituicao }) |
-                @Html.ActionLink("Apagar", "Delete", new { id = item.IdInstituicao })
+                <a asp-action="Edit" asp-route-id="@item.IdInstituicao">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdInstituicao">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdInstituicao">Delete</a>
             </td>
         </tr>
 }

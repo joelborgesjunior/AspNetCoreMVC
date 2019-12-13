@@ -1,50 +1,25 @@
-﻿using AspNetCoreMVC.Models;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
-
+using Microsoft.EntityFrameworkCore;
+using AspNetCoreMVC.Data;
+using AspNetCoreMVC.Models;
+using System;
 
 namespace AspNetCoreMVC.Controllers
 {
     public class InstituicaoController : Controller
     {
-        private static List<Instituicao> instituicoes = new List<Instituicao>()
-        {
-            new Instituicao()
-            {
-                IdInstituicao = 1,
-                NomeInstituicao = "USP",
-                EndereçoInstituicao = "São Paulo"
-            },
-            new Instituicao()
-            {
-                IdInstituicao = 2,
-                NomeInstituicao = "UFRJ",
-                EndereçoInstituicao = "Rio de Janeiro"
-            },
-            new Instituicao()
-            {
-                IdInstituicao = 3,
-                NomeInstituicao = "UFMG",
-                EndereçoInstituicao = "Minas Gerais"
-            },
-            new Instituicao()
-            {
-                IdInstituicao = 4,
-                NomeInstituicao = "UFSC",
-                EndereçoInstituicao = "Santa Catarina"
-            },
-            new Instituicao()
-            {
-                IdInstituicao = 5,
-                NomeInstituicao = "Mackenzie",
-                EndereçoInstituicao = "São Paulo"
-            }
-        };
+        private readonly IESContext _context;
 
-        public IActionResult Index()
+        public InstituicaoController(IESContext context)
         {
-            return View(instituicoes);
+            this._context = context;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            return View(await _context.Institucoes.OrderBy( i => i.IdInstituicao).ToListAsync());
         }
 
         public IActionResult Create()
@@ -54,42 +29,123 @@ namespace AspNetCoreMVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Instituicao instituicao)
+        public async Task<IActionResult> Create([Bind("NomeInstituicao")] Instituicao instituicao)
         {
-            instituicoes.Add(instituicao);
-            instituicao.IdInstituicao = instituicoes.Select(i => i.IdInstituicao).Max() + 1;
-            return RedirectToAction("Index");
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _context.Add(instituicao);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                
+            }
+            catch
+            {
+                ModelState.AddModelError("", "Não foi possível inserir os dados.");
+            }
+
+            return View(instituicao);
         }
 
-        public IActionResult Edit(long id)
+        public async Task<IActionResult> Edit(long? id)
         {
-            return View(instituicoes.Where(i => i.IdInstituicao == id).First());
+            if(id == null)
+            {
+                return NotFound();
+            }
+
+            var instituicao = await _context.Institucoes.SingleOrDefaultAsync(m => m.IdInstituicao == id);
+
+            if(instituicao == null)
+            {
+                return NotFound();
+            }
+
+            return View(instituicao);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Instituicao instituicao)
+        public async Task<IActionResult> Edit(long? id, [Bind("IdInstituicao, NomeInstituicao, EndereçoInstituicao")] Instituicao instituicao)
         {
-            instituicoes[instituicoes.IndexOf(instituicoes.Where(i => i.IdInstituicao == instituicao.IdInstituicao).First())] = instituicao;
-            return RedirectToAction("Index");
+            if(id != instituicao.IdInstituicao)
+            {
+                return NotFound();
+            }
+
+            if(ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(instituicao);
+                    await _context.SaveChangesAsync();
+                } 
+                catch(DbUpdateConcurrencyException) 
+                {
+                    if (!InstituicaoExists(instituicao.IdInstituicao))
+                    {
+                        return NotFound();
+                    } 
+                    else 
+                    { 
+                        throw; 
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(instituicao);
         }
 
-        public IActionResult Details(long id)
+        private bool InstituicaoExists(long? id)
         {
-            return View(instituicoes.Where(i => i.IdInstituicao == id).First());
+            return _context.Institucoes.Any(i => i.IdInstituicao == id);
+        }       
+
+        public async Task<IActionResult> Details(long? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var instituicao = await _context.Institucoes.SingleOrDefaultAsync(i => i.IdInstituicao == id);
+
+            if(instituicao == null)
+            {
+                return NotFound();
+            }
+
+            return View(instituicao);
+
         }
 
-        public IActionResult Delete(long id)
+        public async Task<IActionResult> Delete(long? id)
         {
-            return View(instituicoes.Where(i => i.IdInstituicao == id).First());
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var instituicao = await _context.Institucoes.SingleOrDefaultAsync( i => i.IdInstituicao == id);
+
+            if (instituicao == null)
+            {
+                return NotFound();
+            }
+
+            return View(instituicao);
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(Instituicao instituicao)
+        public async Task<IActionResult> DeleteConfirmed(long? id)
         {
-            instituicoes.Remove(instituicoes.Where(i => i.IdInstituicao == instituicao.IdInstituicao).First());
-            return RedirectToAction("Index");
+            var instituicao = await _context.Institucoes.SingleOrDefaultAsync(i => i.IdInstituicao == id);
+            _context.Institucoes.Remove(instituicao);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
     }
