@@ -1,16 +1,16 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using AspNetCoreMVC.Data;
+using AspNetCoreMVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using AspNetCoreMVC.Data;
-using AspNetCoreMVC.Models;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AspNetCoreMVC.Controllers
 {
     public class DepartamentoController : Controller
     {
         private readonly IESContext _context;
-        
+
         public DepartamentoController(IESContext context)
         {
             this._context = context;
@@ -38,8 +38,8 @@ namespace AspNetCoreMVC.Controllers
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
-            } 
-            
+            }
+
             catch
             {
                 ModelState.AddModelError("", "Não foi possível inserir os dados.");
@@ -50,14 +50,14 @@ namespace AspNetCoreMVC.Controllers
 
         public async Task<IActionResult> Edit(long? id)
         {
-            if(id == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
             var departamento = await _context.Departamentos.SingleOrDefaultAsync(m => m.DepartamentoId == id);
 
-            if(departamento == null)
+            if (departamento == null)
             {
                 return NotFound();
             }
@@ -81,9 +81,9 @@ namespace AspNetCoreMVC.Controllers
                     _context.Update(departamento);
                     await _context.SaveChangesAsync();
                 }
-                catch(DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException)
                 {
-                    if(!DepartamentoExists(departamento.DepartamentoId))
+                    if (!DepartamentoExists(departamento.DepartamentoId))
                     {
                         return NotFound();
                     }
@@ -119,7 +119,7 @@ namespace AspNetCoreMVC.Controllers
 
             return View(departamento);
         }
-        
+
         public async Task<IActionResult> Delete(long? id)
         {
             if (id == null)
@@ -143,6 +143,7 @@ namespace AspNetCoreMVC.Controllers
         {
             var departamento = await _context.Departamentos.SingleOrDefaultAsync(m => m.DepartamentoId == id);
             _context.Departamentos.Remove(departamento);
+            TempData["Message"] = "Departamento	" + departamento.Nome.ToUpper() + "	foi	removida";
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

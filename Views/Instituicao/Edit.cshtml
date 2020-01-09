@@ -13,16 +13,16 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="IdInstituicao" />
+            <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="NomeInstituicao" class="control-label"></label>
-                <input asp-for="NomeInstituicao" class="form-control" />
-                <span asp-validation-for="NomeInstituicao" class="text-danger"></span>
+                <label asp-for="Nome" class="control-label"></label>
+                <input asp-for="Nome" class="form-control" />
+                <span asp-validation-for="Nome" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="EndereçoInstituicao" class="control-label"></label>
-                <input asp-for="EndereçoInstituicao" class="form-control" />
-                <span asp-validation-for="EndereçoInstituicao" class="text-danger"></span>
+                <label asp-for="Endereço" class="control-label"></label>
+                <input asp-for="Endereço" class="form-control" />
+                <span asp-validation-for="Endereço" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -32,7 +32,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-success">Voltar para Instituições</a>
 </div>
 
 @section Scripts {

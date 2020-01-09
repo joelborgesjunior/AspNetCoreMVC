@@ -5,27 +5,40 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+@section styles {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" />
+}
+
+<h1>Detalhes</h1>
 
 <div>
-    <h4>Instituicao</h4>
+    <h4>Instituição</h4>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NomeInstituicao)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NomeInstituicao)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EndereçoInstituicao)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EndereçoInstituicao)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.IdInstituicao">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <div class="card-body">
+        <div class="form-group">
+            <div> @Html.DisplayNameFor(model => model.Id)</div>
+            <div class="input-group flex-nowrap">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="addon-wrapping"><i class="fa fa-key fa-sm"></i></span>
+                </div>
+                <input type="text" class="form-control" placeholder="@Model.Id" aria-label="Username" aria-describedby="addon-wrapping" disabled="disabled">
+            </div>
+            <div> @Html.DisplayNameFor(model => model.Nome)</div>
+            <div class="input-group flex-nowrap">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="addon-wrapping"><i class="fas fa-graduation-cap"></i></span>
+                </div>
+                <input type="text" class="form-control" placeholder="@Model.Nome" aria-label="Username" aria-describedby="addon-wrapping" disabled="disabled">
+            </div>
+            <div> @Html.DisplayNameFor(model => model.Endereço)</div>
+            <div class="input-group flex-nowrap">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="addon-wrapping"><i class="fas fa-map-marker-alt"></i></span>
+                </div>
+                <input type="text" class="form-control" placeholder="@Model.Endereço" aria-label="Username" aria-describedby="addon-wrapping" disabled="disabled">
+            </div>
+        </div>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary"><i class="fas fa-sync fa-spin"></i> Editar</a> |
+        <a asp-action="Index" class="btn btn-success">Voltar para Instituições</a>
+    </div>
 </div>
