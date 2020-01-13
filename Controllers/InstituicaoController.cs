@@ -28,7 +28,7 @@ namespace AspNetCoreMVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("NomeInstituicao")] Instituicao instituicao)
+        public async Task<IActionResult> Create([Bind("Id", "Nome", "Endereço")] Instituicao instituicao)
         {
             try
             {
@@ -38,7 +38,6 @@ namespace AspNetCoreMVC.Controllers
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
-
             }
             catch
             {
@@ -67,7 +66,7 @@ namespace AspNetCoreMVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long? id, [Bind("IdInstituicao, NomeInstituicao, EndereçoInstituicao")] Instituicao instituicao)
+        public async Task<IActionResult> Edit(long? id, [Bind("Id, Nome, Endereço")] Instituicao instituicao)
         {
             if (id != instituicao.Id)
             {

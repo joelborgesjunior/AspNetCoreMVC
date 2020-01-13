@@ -9,30 +9,36 @@
 
 <h4>Instituicao</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
+<div class="card-body">
+    <div class="form-group">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="Nome" class="control-label"></label>
-                <input asp-for="Nome" class="form-control" />
-                <span asp-validation-for="Nome" class="text-danger"></span>
+                <div> @Html.DisplayNameFor(model => model.Nome)</div>
+                <div class="input-group flex-nowrap">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="addon-wrapping"><i class="fas fa-graduation-cap"></i></span>
+                    </div>
+                        <input asp-for="Nome" type="text" class="form-control" aria-label="Nome" aria-describedby="addon-wrapping">
+                        <span asp-validation-for="Nome" class="text-danger"></span>
+                </div>
             </div>
             <div class="form-group">
-                <label asp-for="Endereço" class="control-label"></label>
-                <input asp-for="Endereço" class="form-control" />
-                <span asp-validation-for="Endereço" class="text-danger"></span>
+                <div> @Html.DisplayNameFor(model => model.Endereço)</div>
+                <div class="input-group flex-nowrap">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="addon-wrapping"><i class="fas fa-graduation-cap"></i></span>
+                    </div>
+                        <input asp-for="Endereço" type="text" class="form-control" aria-label="Endereço" aria-describedby="addon-wrapping">
+                        <span asp-validation-for="Endereço" class="text-danger"></span>
+                </div>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Salvar" class="btn btn-primary btn-sm" /> <a asp-action="Index" class="btn btn-success btn-sm">Voltar para Departamentos</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index" class="btn btn-success">Voltar para Instituições</a>
 </div>
 
 @section Scripts {

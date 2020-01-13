@@ -28,7 +28,7 @@ namespace AspNetCoreMVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Nome")] Departamento departamento)
+        public async Task<IActionResult> Create([Bind("DepartamentoId", "Nome")] Departamento departamento)
         {
             try
             {
