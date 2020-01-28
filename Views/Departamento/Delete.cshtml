@@ -5,10 +5,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@section styles {
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" />
-}
-
 <h1>Apagar Departamento</h1>
 
 <h3>Você tem certeza que quer apagar?</h3>
@@ -31,11 +27,28 @@
                 <input type="text" class="form-control" placeholder="@Model.Nome" aria-label="Nome" aria-describedby="addon-wrapping" disabled="disabled">
             </div>
         </div>
+        <input type="submit" value="Apagar" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#ConfirmacaoModal" />
+        <a asp-action="Index" class="btn btn-success btn-sm">Voltar para Departamentos</a>
+    </div>
+</div>
 
-        <form asp-action="Delete">
-            <input type="hidden" asp-for="DepartamentoId" />
-            <input type="submit" value="Apagar" class="btn btn-danger btn-sm" />
-            <a asp-action="Index" class="btn btn-success btn-sm">Voltar para Departamentos</a>
-        </form>
+<div class="modal" id="ConfirmacaoModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Remoção de Departamento</h5>
+                <button type="button" class="close" data-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                Confirma a exclusão de @Model.Nome ?
+            </div>
+            <div class="modal-footer">
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="DepartamentoId" />
+                    <input type="submit" value="Apagar" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#ConfirmacaoModal" />
+                    <a asp-action="Index" class="btn btn-success btn-sm">Voltar para Departamentos</a>
+                </form>
+            </div>
+        </div>
     </div>
 </div>

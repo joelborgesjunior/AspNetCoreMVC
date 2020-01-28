@@ -1,6 +1,7 @@
 ﻿using AspNetCoreMVC.Data;
 using AspNetCoreMVC.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,17 +19,20 @@ namespace AspNetCoreMVC.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Departamentos.OrderBy(c => c.DepartamentoId).ToListAsync());
+            return View(await _context.Departamentos.Include(i => i.Instituicao).OrderBy(c => c.Nome).ToListAsync());
         }
 
         public IActionResult Create()
         {
+            var instituicoes = _context.Instituicoes.OrderBy(i => i.Nome).ToList();
+            instituicoes.Insert(0, new Instituicao() { Id = 0, Nome = "Selecione a instituição" });
+            ViewBag.Instituicoes = instituicoes;
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DepartamentoId", "Nome")] Departamento departamento)
+        public async Task<IActionResult> Create([Bind("Nome, InstituicaoId")] Departamento departamento)
         {
             try
             {
@@ -62,12 +66,14 @@ namespace AspNetCoreMVC.Controllers
                 return NotFound();
             }
 
+            ViewBag.Instituicoes = new SelectList(_context.Instituicoes.OrderBy(i => i.Nome), "Id", "Nome", departamento.InstituicaoId);
+
             return View(departamento);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long? id, [Bind("DepartamentoId, Nome")] Departamento departamento)
+        public async Task<IActionResult> Edit(long? id, [Bind("DepartamentoId, Nome, Id")] Departamento departamento)
         {
             if (id != departamento.DepartamentoId)
             {
@@ -111,6 +117,7 @@ namespace AspNetCoreMVC.Controllers
             }
 
             var departamento = await _context.Departamentos.SingleOrDefaultAsync(m => m.DepartamentoId == id);
+            _context.Instituicoes.Where(i => departamento.InstituicaoId == i.Id).Load();
 
             if (departamento == null)
             {
@@ -128,6 +135,7 @@ namespace AspNetCoreMVC.Controllers
             }
 
             var departamento = await _context.Departamentos.SingleOrDefaultAsync(m => m.DepartamentoId == id);
+            _context.Instituicoes.Where(i => departamento.InstituicaoId == i.Id).Load();
 
             if (departamento == null)
             {
@@ -143,7 +151,7 @@ namespace AspNetCoreMVC.Controllers
         {
             var departamento = await _context.Departamentos.SingleOrDefaultAsync(m => m.DepartamentoId == id);
             _context.Departamentos.Remove(departamento);
-            TempData["Message"] = "Departamento	" + departamento.Nome.ToUpper() + "	foi	removida";
+            TempData["Message"] = "Departamento	" + departamento.Nome + " foi removida com sucesso.";
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

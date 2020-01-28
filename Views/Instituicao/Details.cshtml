@@ -13,35 +13,43 @@
 
 <h4>Instituição</h4>
 <hr />
-<div class="card-body">
-    <div class="form-group">
-        <form asp-action="Details">
-            <div class="form-group">
-                <div> @Html.DisplayNameFor(model => model.Id)</div>
-                <div class="input-group flex-nowrap">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="addon-wrapping"><i class="fa fa-key fa-sm"></i></span>
-                    </div>
-                    <input type="text" class="form-control" placeholder="@Model.Id" aria-label="Id" aria-describedby="addon-wrapping" disabled="disabled">
+<div class="row">
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group">
+                    <form asp-action="Details">
+                        <div class="form-group">
+                            <div> @Html.DisplayNameFor(model => model.Id)</div>
+                            <div class="input-group flex-nowrap">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="addon-wrapping"><i class="fa fa-key fa-sm"></i></span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="@Model.Id" aria-label="Id" aria-describedby="addon-wrapping" disabled="disabled">
+                            </div>
+                            <div> @Html.DisplayNameFor(model => model.Nome)</div>
+                            <div class="input-group flex-nowrap">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="addon-wrapping"><i class="fas fa-university"></i></span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="@Model.Nome" aria-label="Nome" aria-describedby="addon-wrapping" disabled="disabled">
+                            </div>
+                            <div> @Html.DisplayNameFor(model => model.Endereço)</div>
+                            <div class="input-group flex-nowrap">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="addon-wrapping"><i class="fas fa-map-marker-alt"></i></span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="@Model.Endereço" aria-label="Endereço" aria-describedby="addon-wrapping" disabled="disabled">
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div> @Html.DisplayNameFor(model => model.Nome)</div>
-                <div class="input-group flex-nowrap">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="addon-wrapping"><i class="fas fa-graduation-cap"></i></span>
-                    </div>
-                    <input type="text" class="form-control" placeholder="@Model.Nome" aria-label="Nome" aria-describedby="addon-wrapping" disabled="disabled">
-                </div>
-                <div> @Html.DisplayNameFor(model => model.Endereço)</div>
-                <div class="input-group flex-nowrap">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="addon-wrapping"><i class="fas fa-map-marker-alt"></i></span>
-                    </div>
-                    <input type="text" class="form-control" placeholder="@Model.Endereço" aria-label="Endereço" aria-describedby="addon-wrapping" disabled="disabled">
-                </div>
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary btn-sm"><i class="fas fa-sync fa-spin"></i> Editar</a>
+                <a asp-action="Index" class="btn btn-success btn-sm">Voltar para Instituições</a>
             </div>
-        </form>
+        </div>
     </div>
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary btn-sm"><i class="fas fa-sync fa-spin"></i> Editar</a>
-    <a asp-action="Index" class="btn btn-success btn-sm">Voltar para Instituições</a>
+    <div class="col-sm-6">        
+            <partial name="~/Views/Instituicao/_ComDepartamentos.cshtml" model="Model.Departamentos.ToList()" />             
+    </div>
 </div>
-

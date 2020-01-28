@@ -5,10 +5,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@section styles {
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" />
-}
-
 <h1>Apagar Instituição</h1>
 
 <h3>Você tem certeza que quer apagar?</h3>
@@ -26,23 +22,41 @@
             <div> @Html.DisplayNameFor(model => model.Nome)</div>
             <div class="input-group flex-nowrap">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" id="addon-wrapping"><i class="fas fa-graduation-cap"></i></span>
+                    <span class="input-group-text" id="addon-wrapping"><i class="fas fa-university"></i></span>
                 </div>
                 <input type="text" class="form-control" placeholder="@Model.Nome" aria-label="Nome" aria-describedby="addon-wrapping" disabled="disabled">
             </div>
             <div> @Html.DisplayNameFor(model => model.Endereço)</div>
             <div class="input-group flex-nowrap">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" id="addon-wrapping"><i class="fas fa-graduation-cap"></i></span>
+                    <span class="input-group-text" id="addon-wrapping"><i class="fas fa-map-marker-alt"></i></span>
                 </div>
                 <input type="text" class="form-control" placeholder="@Model.Endereço" aria-label="Endereço" aria-describedby="addon-wrapping" disabled="disabled">
             </div>
         </div>
+        <input type="submit" value="Apagar" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#ConfirmacaoModal" />
+        <a asp-action="Index" class="btn btn-success btn-sm">Voltar para Instituições</a>
+    </div>
+</div>
 
-        <form asp-action="Delete">
-            <input type="hidden" asp-for="Id" />
-            <input type="submit" value="Delete" class="btn btn-danger btn-sm" />
-            <a asp-action="Index" class="btn btn-success btn-sm">Voltar para Instituições</a>
-        </form>
+<div class="modal" id="ConfirmacaoModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Remoção de Instituto</h5>
+                <button type="button" class="close" data-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                Confirma a exclusão de @Model.Nome ?
+                <span style="color:red;font-weight:bold"><br />ATENÇÃO: Serão excluído todos departamentos ligados a esta instituição!</span>
+            </div>
+            <div class="modal-footer">
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="Id" />
+                    <input type="submit" value="Apagar" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#ConfirmacaoModal"/>
+                    <a asp-action="Index" class="btn btn-success btn-sm">Voltar para Instituições</a>
+                </form>
+            </div>
+        </div>
     </div>
 </div>

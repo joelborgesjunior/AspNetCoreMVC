@@ -9,8 +9,19 @@ namespace AspNetCoreMVC.Data
         {
 
         }
+        
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Instituicao>()
+                .HasMany(e => e.Departamentos)
+                .WithOne(e => e.Instituicao)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
 
-        public DbSet<Instituicao> Institucoes { get; set; }
+            base.OnModelCreating(modelBuilder);
+        }
+
+        public DbSet<Instituicao> Instituicoes { get; set; }
         public DbSet<Departamento> Departamentos { get; set; }
     }
 }

@@ -18,7 +18,7 @@ namespace AspNetCoreMVC.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Institucoes.OrderBy(i => i.Id).ToListAsync());
+            return View(await _context.Instituicoes.OrderBy(i => i.Id).ToListAsync());
         }
 
         public IActionResult Create()
@@ -35,6 +35,7 @@ namespace AspNetCoreMVC.Controllers
                 if (ModelState.IsValid)
                 {
                     _context.Add(instituicao);
+                    TempData["Message"] = "Instituição " + instituicao.Nome + " foi criada com sucesso.";
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
@@ -54,7 +55,7 @@ namespace AspNetCoreMVC.Controllers
                 return NotFound();
             }
 
-            var instituicao = await _context.Institucoes.SingleOrDefaultAsync(m => m.Id == id);
+            var instituicao = await _context.Instituicoes.SingleOrDefaultAsync(m => m.Id == id);
 
             if (instituicao == null)
             {
@@ -78,6 +79,7 @@ namespace AspNetCoreMVC.Controllers
                 try
                 {
                     _context.Update(instituicao);
+                    TempData["Message"] = "Instituição " + instituicao.Nome + " foi atualizada com sucesso.";
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -98,7 +100,7 @@ namespace AspNetCoreMVC.Controllers
 
         private bool InstituicaoExists(long? id)
         {
-            return _context.Institucoes.Any(i => i.Id == id);
+            return _context.Instituicoes.Any(i => i.Id == id);
         }
 
         public async Task<IActionResult> Details(long? id)
@@ -108,7 +110,7 @@ namespace AspNetCoreMVC.Controllers
                 return NotFound();
             }
 
-            var instituicao = await _context.Institucoes.SingleOrDefaultAsync(i => i.Id == id);
+            var instituicao = await _context.Instituicoes.Include(d => d.Departamentos).SingleOrDefaultAsync(i => i.Id == id);
 
             if (instituicao == null)
             {
@@ -126,7 +128,8 @@ namespace AspNetCoreMVC.Controllers
                 return NotFound();
             }
 
-            var instituicao = await _context.Institucoes.SingleOrDefaultAsync(i => i.Id == id);
+            var instituicao = await _context.Instituicoes.SingleOrDefaultAsync(i => i.Id == id);
+            _context.Departamentos.Where(i => instituicao.Id == i.InstituicaoId).Load();
 
             if (instituicao == null)
             {
@@ -140,8 +143,9 @@ namespace AspNetCoreMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long? id)
         {
-            var instituicao = await _context.Institucoes.SingleOrDefaultAsync(i => i.Id == id);
-            _context.Institucoes.Remove(instituicao);
+            var instituicao = await _context.Instituicoes.SingleOrDefaultAsync(i => i.Id == id);
+            _context.Instituicoes.Remove(instituicao);
+            TempData["Message"] = "Instituição " + instituicao.Nome + " foi removida com sucesso.";
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

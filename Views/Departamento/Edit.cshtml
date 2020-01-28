@@ -20,13 +20,23 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="addon-wrapping"><i class="fas fa-graduation-cap"></i></span>
                     </div>
-                        <input asp-for="Nome" type="text" class="form-control" aria-label="Nome" aria-describedby="addon-wrapping">
-                        <span asp-validation-for="Nome" class="text-danger"></span>
+                    <input asp-for="Nome" type="text" class="form-control" aria-label="Nome" aria-describedby="addon-wrapping">
+                    <span asp-validation-for="Nome" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div> @Html.DisplayNameFor(model => model.Instituicao.Nome)</div>
+                <div class="input-group flex-nowrap">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="addon-wrapping"><i class="fas fa-university"></i></span>
+                    </div>
+                    <select asp-for="InstituicaoId" class="form-control" asp-items=@ViewBag.Instituicoes></select>
+                    <span asp-validation-for="InstituicaoId" class="text-danger"></span>
                 </div>
             </div>
             <div class="form-group">
                 <input type="submit" value="Salvar" class="btn btn-primary btn-sm" /> <a asp-action="Index" class="btn btn-success btn-sm">Voltar para Departamentos</a>
-            </div>            
+            </div>
         </form>
     </div>
 </div>

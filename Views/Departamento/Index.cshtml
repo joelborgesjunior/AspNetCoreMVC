@@ -8,6 +8,7 @@
 @if (@TempData["Message"] != null)
 {
     <div class="alert alert-success" role="alert">
+        <i class="fas fa-check-circle"></i>
         @TempData["Message"]
     </div>
 }
@@ -22,22 +23,26 @@
         <thead>
             <tr>
                 <th>@Html.DisplayNameFor(model => model.Nome)</th>
+                <th>@Html.DisplayNameFor(model => model.Instituicao)</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Nome)
-                    </td>
-                    <td align="right">
-                        <a asp-action="Edit" asp-route-id="@item.DepartamentoId" class="btn btn-primary btn-sm"><i class="fas fa-edit"> Editar</i></a>
-                        <a asp-action="Details" asp-route-id="@item.DepartamentoId" class="btn btn-warning btn-sm"><i class="fas fa-align-justify"> Detalhes</i></a>
-                        <a asp-action="Delete" asp-route-id="@item.DepartamentoId" class="btn btn-danger btn-sm"><i class="fas fa-trash"> Apagar</i></a>
-                    </td>
-                </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Instituicao.Nome)
+                </td>
+                <td align="right">
+                    <a asp-action="Edit" asp-route-id="@item.DepartamentoId" class="btn btn-primary btn-sm"><i class="fas fa-edit"> Editar</i></a>
+                    <a asp-action="Details" asp-route-id="@item.DepartamentoId" class="btn btn-warning btn-sm"><i class="fas fa-align-justify"> Detalhes</i></a>
+                    <a asp-action="Delete" asp-route-id="@item.DepartamentoId" class="btn btn-danger btn-sm"><i class="fas fa-trash"> Apagar</i></a>
+                </td>
+            </tr>
             }
 
         </tbody>

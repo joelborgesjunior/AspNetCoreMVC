@@ -14,10 +14,22 @@ namespace AspNetCoreMVC.Data
                 return;
             }
 
+            var instituicoes = new Instituicao[]
+{
+            new Instituicao {Nome="UniParaná", Endereço="Paraná"},
+            new Instituicao {Nome="UniAcre", Endereço="Acre"}
+};
+            foreach (Instituicao i in instituicoes)
+            {
+                context.Instituicoes.Add(i);
+            }
+
+            context.SaveChanges();
+
             var Departamentos = new Departamento[]
             {
-                new Departamento {Nome="Ciência da Computação"},
-                new Departamento {Nome="Ciência de Alimentos"}
+            new Departamento {Nome="Ciência da Computação", InstituicaoId=1},
+            new Departamento {Nome="Ciência de Alimentos", InstituicaoId=2}
             };
 
             foreach (Departamento d in Departamentos)

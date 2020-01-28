@@ -7,6 +7,7 @@
   <ItemGroup>
     <Content Remove="Views\Departamento\View.cshtml" />
     <Content Remove="Views\Shared\_LayoutIES.cshtml" />
+    <Content Remove="Views\_ComDepartamentos.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

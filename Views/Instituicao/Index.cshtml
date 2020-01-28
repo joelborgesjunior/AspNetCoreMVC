@@ -5,6 +5,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@if (@TempData["Message"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        <i class="fas fa-check-circle"></i>
+        @TempData["Message"]
+    </div>
+}
+
 <h1>Instituições</h1>
 
 <p>

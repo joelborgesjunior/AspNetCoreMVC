@@ -1,0 +1,17 @@
+﻿@model IEnumerable<AspNetCoreMVC.Models.Departamento>
+
+<div class="card border-info mb-3">
+    <div class="card-header">Relação de departamentos registrados:</div>
+    <div class="card-body">
+        <table>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Nome)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
